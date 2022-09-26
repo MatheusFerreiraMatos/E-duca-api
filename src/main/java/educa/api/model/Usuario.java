@@ -31,4 +31,5 @@ public abstract class Usuario {
     @Size(min = 8)
     private String senha;
     private boolean autenticado;
+
 }

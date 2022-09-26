@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -13,9 +14,31 @@ import javax.validation.constraints.*;
 @Entity
 public class Professor extends Usuario {
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @NotBlank
+    private String nome;
+
+    @Past
+    @NotNull
+    private LocalDate dtNasc;
+
     @NotBlank
     private String areaAtuacao;
+
     @NotNull
-    private Integer tempoCarreira;
+    private int tempoCarreira;
+
+    @Email
+    private String email;
+
+    @Size(min = 8)
+    private String senha;
+
+
+
 
 }
