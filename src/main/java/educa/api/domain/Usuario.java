@@ -61,6 +61,17 @@ public class Usuario implements UserDetails {
         this.inicioAtuacao = inicioAtuacao;
     }
 
+    public Usuario(Integer id, String nome, String sobrenome, LocalDate dataNasc, String email, String areaAtuacao,
+                   LocalDate inicioAtuacao) {
+        this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.dataNasc = dataNasc;
+        this.email = email;
+        this.areaAtuacao = areaAtuacao;
+        this.inicioAtuacao = inicioAtuacao;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.perfis;

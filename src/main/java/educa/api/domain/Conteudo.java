@@ -41,4 +41,17 @@ public class Conteudo {
     @OneToMany(mappedBy = "conteudo")
     private List<Avaliacao> avaliacoes = new ArrayList<>();
 
+    public Conteudo(int idConteudo, String titulo, String url, String artigo, String texto,
+                    LocalDateTime dataCriacao, int tempoEstimado) {
+        this.idConteudo = idConteudo;
+        this.titulo = titulo;
+        this.url = url;
+        this.artigo = artigo;
+        this.texto = texto;
+        this.dataCriacao = dataCriacao;
+        this.tempoEstimado = tempoEstimado;
+    }
+
+
+
 }

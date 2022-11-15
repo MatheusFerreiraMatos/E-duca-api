@@ -39,6 +39,8 @@ public class ListObj<T> {
         return list;
     }
 
+
+
     public int get(T elemento) {
         for (int i = 0; i < nroElem; i++) {
             if (elemento.equals(vetor[i])) {
@@ -80,5 +82,28 @@ public class ListObj<T> {
         }
         nroElem = 0;
     }
+
+    public void adiciona(T elemento) {
+        if (nroElem >= vetor.length) {
+            throw new IllegalStateException();
+        }
+        else {
+            vetor[nroElem++] = elemento;
+        }
+    }
+
+    public void exibe() {
+        if (nroElem == 0) {
+            System.out.println("\nA lista está vazia.");
+        }
+        else {
+            System.out.println("\nElementos da lista:");
+            for (int i = 0; i < nroElem; i++) {
+                System.out.println(vetor[i]);
+            }
+        }
+    }
+
+
 
 }
