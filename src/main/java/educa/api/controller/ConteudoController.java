@@ -144,7 +144,7 @@ public class ConteudoController {
         ListObj<Conteudo> listObj = new ListObj<>(list.size());
 
         for (Conteudo conteudo : list) {
-            listObj.add(conteudo);
+            listObj.adiciona(conteudo);
         }
 
         for (int i = 0; i < listObj.getTamanho(); i++) {

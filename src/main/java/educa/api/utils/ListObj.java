@@ -13,7 +13,7 @@ public class ListObj<T> {
         this.nroElem = 0;
     }
 
-    public void add(T elemento) {
+    public void adiciona(T elemento) {
         if (nroElem != vetor.length) {
             for (int i = 0; i < vetor.length; i++) {
                 vetor[nroElem] = elemento;
@@ -77,6 +77,18 @@ public class ListObj<T> {
             vetor[i] = null;
         }
         nroElem = 0;
+    }
+
+    public void exibe() {
+        if (nroElem == 0) {
+            System.out.println("\nA lista está vazia.");
+        }
+        else {
+            System.out.println("\nElementos da lista:");
+            for (int i = 0; i < nroElem; i++) {
+                System.out.println(vetor[i]);
+            }
+        }
     }
 
 }

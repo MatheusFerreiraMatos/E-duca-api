@@ -65,6 +65,16 @@ public class Usuario implements UserDetails {
         this.inicioAtuacao = inicioAtuacao;
     }
 
+    public Usuario(Integer idUsuario, String nome, String sobrenome, LocalDate dataNasc, String email, String areaAtuacao, LocalDate inicioAtuacao) {
+        this.idUsuario = idUsuario;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.dataNasc = dataNasc;
+        this.email = email;
+        this.areaAtuacao = areaAtuacao;
+        this.inicioAtuacao = inicioAtuacao;
+    }
+
     public void adicionarPerfil(Perfil novo) {
         this.perfis.add(novo);
     }

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: educa.api.ProjetoApiEducaApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.859 s - in educa.api.ProjetoApiEducaApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 23.906 s - in educa.api.ProjetoApiEducaApplicationTests
