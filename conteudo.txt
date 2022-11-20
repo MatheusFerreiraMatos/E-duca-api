@@ -1,6 +1,12 @@
-CONTEUDO19-11-2022 11:19:2300
-031   Lucas               Pietro                                            lucas@gmail.om                          2022-11-19               Professor                2022-11-19               
-021   Matemáti            aulasdematematica.com/aulas/conteudo              1. Aulas de matemática ap2022-11-19T11:19:23.69257010
-022   Matemati            aulao.com/aulas/execicio                          2. resolva os exercícios 2022-11-19T11:19:23.69257020
-023   Matemáti            aulao.com/aulas/execicio                          3. Aulas de matemática ap2022-11-19T11:19:23.69257020
+CONTEUDO20-11-2022 00:45:2700
+031   Lucas               Pietro                                            lucas@gmail.com.br                      2022-11-20               Professor                2022-11-20               
+021   Matemática          aulasdematematica.com/aulas/conteudo              1. Aulas de matemática aplicada2022-11-20T00:45:27.14095010
+022   Matematica          aulao.com/aulas/execicio                          2. resolva os exercícios 2022-11-20T00:45:27.14095020
+023   Matemática          aulao.com/aulas/execicio                          3. Aulas de matemática aplicada2022-11-20T00:45:27.14095020
+010000000004
+CONTEUDO20-11-2022 00:46:0000
+031   Lucas               Pietro                                            lucas@gmail.com.br                      2022-11-20               Professor                2022-11-20               
+021   Matemática          aulasdematematica.com/aulas/conteudo              1. Aulas de matemática aplicada2022-11-20T00:45:59.96125010
+022   Matematica          aulao.com/aulas/execicio                          2. resolva os exercícios 2022-11-20T00:45:59.96125020
+023   Matemática          aulao.com/aulas/execicio                          3. Aulas de matemática aplicada2022-11-20T00:45:59.96125020
 010000000004

@@ -71,9 +71,9 @@ public class ArquivoTxt {
         for (Conteudo conteudo1 : listaCont) {
             corpo = "02";
             corpo += String.format("%-4.5s", conteudo1.getIdConteudo());
-            corpo += String.format("%-20.8s", conteudo1.getTitulo());
+            corpo += String.format("%-20.12s", conteudo1.getTitulo());
             corpo += String.format("%-50.50s", conteudo1.getUrlVideo());
-            corpo += String.format("%-25.25s", conteudo1.getTexto());
+            corpo += String.format("%-25.50s", conteudo1.getTexto());
             corpo += String.format("%-25.25s", conteudo1.getDataCriacao());
             corpo += String.format("%03d", conteudo1.getTempoEstimado());
             gravaRegistro(corpo, nomeArq);
@@ -137,10 +137,10 @@ public class ArquivoTxt {
                 else if (tipoRegistro.equals("02")) {
                     System.out.println("Registro de corpo");
                     id = Integer.parseInt(registro.substring(0, 2).trim());
-                    titulo = registro.substring(2, 13).trim();
-                    url = registro.substring(13, 20).trim();
-                    texto = registro.substring(60, 158).trim();
-                    tempoEstimado = Integer.parseInt(registro.substring(158, 159).trim());
+                    titulo = registro.substring(2, 52).trim();
+                    url = registro.substring(52,152).trim();
+                    tempoEstimado = Integer.parseInt(registro.substring(152, 157).trim());
+                    texto = registro.substring(157, 5157).trim();
                     contaRegDadoLido++;
 
                     // Instancia um objeto Aluno com as informações lidas
@@ -183,7 +183,7 @@ public class ArquivoTxt {
         List<Conteudo> lista = new ArrayList();
         List<Usuario> autor = new ArrayList<>();
 
-        autor.add(new Usuario(1, "Lucas", "Pietro", LocalDate.now(),"lucas@gmail.om",
+        autor.add(new Usuario(1, "Lucas", "Pietro", LocalDate.now(),"lucas@gmail.com.br",
                 "Professor", LocalDate.now()));
 
         lista.add(new Conteudo(1, "Matemática", "aulasdematematica.com/aulas/conteudo",
