@@ -91,11 +91,16 @@ public class ArquivoTxt {
         BufferedReader entrada = null;
         String registro, tipoRegistro;
         String titulo, url, texto;
+        int idUsuario;
+        LocalDate dataCriacao;
+        String nome, sobreNome, email, areaAtuacao;
+
         int tempoEstimado, id;
         int contaRegDadoLido = 0;
         int qtdRegDadoGravado;
 
         List<Conteudo> listaLida = new ArrayList();
+        List<Usuario> listaLidaUser = new ArrayList();
 
         // try-catch para abrir o arquivo
         try {
@@ -136,15 +141,16 @@ public class ArquivoTxt {
                 }
                 else if (tipoRegistro.equals("02")) {
                     System.out.println("Registro de corpo");
-                    id = Integer.parseInt(registro.substring(0, 2).trim());
-                    titulo = registro.substring(2, 52).trim();
+                    id = Integer.parseInt(registro.substring(2, 4).trim());
+                    titulo = registro.substring(4, 52).trim();
                     url = registro.substring(52,152).trim();
-                    tempoEstimado = Integer.parseInt(registro.substring(152, 157).trim());
-                    texto = registro.substring(157, 5157).trim();
+                    texto = registro.substring(152, 5152).trim();
+                    dataCriacao = LocalDate.ofEpochDay(Integer.parseInt(registro.substring(5152, 5172).trim()));
+                    tempoEstimado = Integer.parseInt(registro.substring(5172, 5177).trim());
                     contaRegDadoLido++;
 
-                    // Instancia um objeto Aluno com as informações lidas
-                    Conteudo c = new Conteudo(id,titulo, url, texto, LocalDateTime.now(), tempoEstimado);
+                  // Instancia um objeto Aluno com as informações lidas
+                    Conteudo c = new Conteudo(id,titulo, url, texto, dataCriacao.atStartOfDay(), tempoEstimado);
 
                     // No Projeto de PI, pode fazer
                     // repository.save(a)
@@ -152,6 +158,30 @@ public class ArquivoTxt {
                     // No nosso caso, como não estamos conectados ao banco
                     // vamos adicionar o objeto a na listaLida
                     listaLida.add(c);
+
+                }
+                else if (tipoRegistro.equals("03")) {
+                    System.out.println("Registro de corpo");
+                    idUsuario = Integer.parseInt(registro.substring(2, 5).trim());
+                    nome = registro.substring(5, 55).trim();
+                    sobreNome = registro.substring(55,105).trim();
+                    email = registro.substring(105, 150).trim();
+                    areaAtuacao = registro.substring(150, 250).trim();
+                    contaRegDadoLido++;
+
+                    Usuario usuario = new Usuario(idUsuario, nome, sobreNome, LocalDate.now(),  email, areaAtuacao, LocalDate.now());
+
+                    listaLidaUser.add(usuario);
+
+                    // Instancia um objeto Aluno com as informações lidas
+
+
+                    // No Projeto de PI, pode fazer
+                    // repository.save(a)
+
+                    // No nosso caso, como não estamos conectados ao banco
+                    // vamos adicionar o objeto a na listaLida
+
 
                 }
                 else {
@@ -175,6 +205,11 @@ public class ArquivoTxt {
             System.out.println(c);
         }
 
+        System.out.println("\nConteúdo da lista lida do arquivo:");
+        for (Usuario usuario : listaLidaUser) {
+            System.out.println(usuario);
+        }
+
     }
 
 
@@ -196,9 +231,17 @@ public class ArquivoTxt {
 
 
 
-        System.out.println("Lista original:");
+        System.out.println("Lista de conteúdos:");
         for (Conteudo c : lista) {
             System.out.println(c);
+        }
+        System.out.println();
+        System.out.println("======================================================================================================================================");
+        System.out.println();
+
+        System.out.println("Lista de usuários:");
+        for (Usuario u : autor ){
+            System.out.println(u);
         }
 
         gravaArquivoTxt(autor, lista , "conteudo.txt");
