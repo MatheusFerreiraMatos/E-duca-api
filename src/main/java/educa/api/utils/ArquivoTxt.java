@@ -1,5 +1,6 @@
 package educa.api.utils;
 
+import educa.api.request.ProfessorRequest;
 import educa.api.request.domain.Conteudo;
 import educa.api.request.domain.Usuario;
 
@@ -89,18 +90,16 @@ public class ArquivoTxt {
 
     public void leArquivoTxt(String nomeArq) {
         BufferedReader entrada = null;
-        String registro, tipoRegistro;
-        String titulo, url, texto;
-        int idUsuario;
-        LocalDate dataCriacao;
+        String registro, tipoRegistro, titulo, url, texto;
         String nome, sobreNome, email, areaAtuacao;
 
-        int tempoEstimado, id;
+        int tempoEstimado;
+        int  id;
         int contaRegDadoLido = 0;
         int qtdRegDadoGravado;
 
         List<Conteudo> listaLida = new ArrayList();
-        List<Usuario> listaLidaUser = new ArrayList();
+        List<ProfessorRequest> listaLidaUser = new ArrayList();
 
         // try-catch para abrir o arquivo
         try {
@@ -118,7 +117,7 @@ public class ArquivoTxt {
 
             while (registro != null) {
 
-                tipoRegistro = registro.substring(0, 2);
+                tipoRegistro = registro.substring(0,2);
                 if (tipoRegistro.equals("00")) {
                     System.out.println("Registro de header");
                     System.out.println("Tipo de arquivo: " + registro.substring(3, 10));
@@ -141,16 +140,15 @@ public class ArquivoTxt {
                 }
                 else if (tipoRegistro.equals("02")) {
                     System.out.println("Registro de corpo");
-                    id = Integer.parseInt(registro.substring(2, 4).trim());
-                    titulo = registro.substring(4, 52).trim();
-                    url = registro.substring(52,152).trim();
-                    texto = registro.substring(152, 5152).trim();
-                    dataCriacao = LocalDate.ofEpochDay(Integer.parseInt(registro.substring(5152, 5172).trim()));
-                    tempoEstimado = Integer.parseInt(registro.substring(5172, 5177).trim());
+                    id = Integer.parseInt(registro.substring(2, 6).trim());
+                    titulo = registro.substring(6, 26).trim();
+                    url = registro.substring(26,76).trim();
+                    texto = registro.substring(76, 101).trim();
+                    tempoEstimado = Integer.parseInt(registro.substring(101, 104).trim());
                     contaRegDadoLido++;
 
                     // Instancia um objeto Aluno com as informações lidas
-                    Conteudo c = new Conteudo(id,titulo, url, texto, dataCriacao.atStartOfDay(), tempoEstimado);
+                    Conteudo c = new Conteudo(id, titulo, url, texto, LocalDateTime.now(), tempoEstimado  );
 
                     // No Projeto de PI, pode fazer
                     // repository.save(a)
@@ -162,16 +160,15 @@ public class ArquivoTxt {
                 }
                 else if (tipoRegistro.equals("03")) {
                     System.out.println("Registro de corpo");
-                    idUsuario = Integer.parseInt(registro.substring(2, 5).trim());
-                    nome = registro.substring(5, 55).trim();
-                    sobreNome = registro.substring(55,105).trim();
-                    email = registro.substring(105, 150).trim();
-                    areaAtuacao = registro.substring(150, 250).trim();
+
+                    nome = registro.substring(3, 23).trim();
+                    sobreNome = registro.substring(23,53).trim();
+                    email = registro.substring(53, 93).trim();
+                    areaAtuacao = registro.substring(93, 107).trim();
                     contaRegDadoLido++;
 
-                    Usuario usuario = new Usuario(idUsuario, nome, sobreNome, LocalDate.now(),  email, areaAtuacao, LocalDate.now());
-
-                    listaLidaUser.add(usuario);
+                    ProfessorRequest professor = new ProfessorRequest(nome, sobreNome, email, areaAtuacao);
+                    listaLidaUser.add(professor);
 
                     // Instancia um objeto Aluno com as informações lidas
 
@@ -199,16 +196,6 @@ public class ArquivoTxt {
             erro.printStackTrace();
         }
 
-        // Exibe a lista lida
-        System.out.println("\nConteúdo da lista lida do arquivo:");
-        for (Conteudo c : listaLida) {
-            System.out.println(c);
-        }
-
-        System.out.println("\nConteúdo da lista lida do arquivo:");
-        for (Usuario usuario : listaLidaUser) {
-            System.out.println(usuario);
-        }
 
     }
 }

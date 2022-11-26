@@ -226,4 +226,15 @@ public class ConteudoController {
         return ResponseEntity.status(200).header("content-disposition", "attachment; filename=\"conteudos.txt\"").body(bytes);
     }
 
+    @PostMapping(value = "/gravar-text", consumes = "text/plain")
+    public ResponseEntity<Void> gravarTxt(@RequestBody byte[] novoArquivo) {
+        String arquivoConverte = new String(novoArquivo);
+
+        ArquivoTxt arquivoTxt = new ArquivoTxt();
+
+        arquivoTxt.leArquivoTxt(arquivoConverte);
+
+        return ResponseEntity.status(200).build();
+    }
+
 }
