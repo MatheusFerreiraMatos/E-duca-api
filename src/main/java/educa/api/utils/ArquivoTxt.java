@@ -1,7 +1,8 @@
 package educa.api.utils;
 
+import educa.api.request.ProfessorRequest;
 import educa.api.request.domain.Conteudo;
-import educa.api.request.domain.Usuario;
+
 
 import java.io.*;
 import java.time.LocalDate;
@@ -14,7 +15,7 @@ public class ArquivoTxt {
 
     Conteudo conteudo =new Conteudo();
 
-    Usuario autor = new Usuario();
+
 
     public static void gravaRegistro(String registro, String nomeArq) {
         BufferedWriter saida = null;
@@ -40,7 +41,7 @@ public class ArquivoTxt {
         }
     }
 
-    public static void gravaArquivoTxt(List<Usuario> listaAutor, List<Conteudo> listaCont,  String nomeArq) {
+    public static void gravaArquivoTxt(List<ProfessorRequest> listaAutor, List<Conteudo> listaCont,  String nomeArq) {
         int contaRegDados = 0;
 
         // Monta o registro de header
@@ -53,16 +54,12 @@ public class ArquivoTxt {
 
         // Monta e grava os registros de corpo (ou de dados)
         String corpo;
-        for (Usuario autor : listaAutor ) {
+        for (ProfessorRequest autor : listaAutor ) {
             corpo = "03";
-            corpo += String.format("%-4.5s", autor.getIdUsuario());
-            corpo += String.format("%-20.8s", autor.getNome());
-            corpo += String.format("%-50.50s", autor.getSobrenome());
+            corpo += String.format("%-20.20s", autor.getNome());
+            corpo += String.format("%-30.30s", autor.getSobrenome());
             corpo += String.format("%-40.40s", autor.getEmail());
-            corpo += String.format("%-25.25s", autor.getDataNasc());
-            corpo += String.format("%-25.25s", autor.getAreaAtuacao());
-            corpo += String.format("%-25.25s", autor.getInicioAtuacao());
-
+            corpo += String.format("%-15.15s", autor.getAreaAtuacao());
             gravaRegistro(corpo, nomeArq);
             contaRegDados++;
         }
@@ -70,10 +67,10 @@ public class ArquivoTxt {
 
         for (Conteudo conteudo1 : listaCont) {
             corpo = "02";
-            corpo += String.format("%-4.5s", conteudo1.getIdConteudo());
-            corpo += String.format("%-20.12s", conteudo1.getTitulo());
+            corpo += String.format("%-4.4s", conteudo1.getIdConteudo());
+            corpo += String.format("%-20.20s", conteudo1.getTitulo());
             corpo += String.format("%-50.50s", conteudo1.getUrlVideo());
-            corpo += String.format("%-25.50s", conteudo1.getTexto());
+            corpo += String.format("%-25.25s", conteudo1.getTexto());
             corpo += String.format("%-25.25s", conteudo1.getDataCriacao());
             corpo += String.format("%03d", conteudo1.getTempoEstimado());
             gravaRegistro(corpo, nomeArq);
@@ -89,18 +86,16 @@ public class ArquivoTxt {
 
     public static void leArquivoTxt(String nomeArq) {
         BufferedReader entrada = null;
-        String registro, tipoRegistro;
-        String titulo, url, texto;
-        int idUsuario;
-        LocalDate dataCriacao;
+        String registro, tipoRegistro, titulo, url, texto;
         String nome, sobreNome, email, areaAtuacao;
 
-        int tempoEstimado, id;
+        int tempoEstimado;
+        int  id;
         int contaRegDadoLido = 0;
         int qtdRegDadoGravado;
 
         List<Conteudo> listaLida = new ArrayList();
-        List<Usuario> listaLidaUser = new ArrayList();
+        List<ProfessorRequest> listaLidaUser = new ArrayList();
 
         // try-catch para abrir o arquivo
         try {
@@ -118,7 +113,7 @@ public class ArquivoTxt {
 
             while (registro != null) {
 
-                tipoRegistro = registro.substring(0, 2);
+                tipoRegistro = registro.substring(0,2);
                 if (tipoRegistro.equals("00")) {
                     System.out.println("Registro de header");
                     System.out.println("Tipo de arquivo: " + registro.substring(3, 10));
@@ -141,16 +136,15 @@ public class ArquivoTxt {
                 }
                 else if (tipoRegistro.equals("02")) {
                     System.out.println("Registro de corpo");
-                    id = Integer.parseInt(registro.substring(2, 4).trim());
-                    titulo = registro.substring(4, 52).trim();
-                    url = registro.substring(52,152).trim();
-                    texto = registro.substring(152, 5152).trim();
-                    dataCriacao = LocalDate.ofEpochDay(Integer.parseInt(registro.substring(5152, 5172).trim()));
-                    tempoEstimado = Integer.parseInt(registro.substring(5172, 5177).trim());
+                    id = Integer.parseInt(registro.substring(2, 6).trim());
+                    titulo = registro.substring(6, 26).trim();
+                    url = registro.substring(26,76).trim();
+                    texto = registro.substring(76, 101).trim();
+                    tempoEstimado = Integer.parseInt(registro.substring(101, 104).trim());
                     contaRegDadoLido++;
 
                   // Instancia um objeto Aluno com as informações lidas
-                    Conteudo c = new Conteudo(id,titulo, url, texto, dataCriacao.atStartOfDay(), tempoEstimado);
+                    Conteudo c = new Conteudo(id, titulo, url, texto, LocalDateTime.now(), tempoEstimado  );
 
                     // No Projeto de PI, pode fazer
                     // repository.save(a)
@@ -162,16 +156,15 @@ public class ArquivoTxt {
                 }
                 else if (tipoRegistro.equals("03")) {
                     System.out.println("Registro de corpo");
-                    idUsuario = Integer.parseInt(registro.substring(2, 5).trim());
-                    nome = registro.substring(5, 55).trim();
-                    sobreNome = registro.substring(55,105).trim();
-                    email = registro.substring(105, 150).trim();
-                    areaAtuacao = registro.substring(150, 250).trim();
+
+                    nome = registro.substring(3, 23).trim();
+                    sobreNome = registro.substring(23,53).trim();
+                    email = registro.substring(53, 93).trim();
+                    areaAtuacao = registro.substring(93, 107).trim();
                     contaRegDadoLido++;
 
-                    Usuario usuario = new Usuario(idUsuario, nome, sobreNome, LocalDate.now(),  email, areaAtuacao, LocalDate.now());
-
-                    listaLidaUser.add(usuario);
+                    ProfessorRequest professor = new ProfessorRequest(nome, sobreNome, email, areaAtuacao);
+                    listaLidaUser.add(professor);
 
                     // Instancia um objeto Aluno com as informações lidas
 
@@ -199,16 +192,6 @@ public class ArquivoTxt {
             erro.printStackTrace();
         }
 
-        // Exibe a lista lida
-        System.out.println("\nConteúdo da lista lida do arquivo:");
-        for (Conteudo c : listaLida) {
-            System.out.println(c);
-        }
-
-        System.out.println("\nConteúdo da lista lida do arquivo:");
-        for (Usuario usuario : listaLidaUser) {
-            System.out.println(usuario);
-        }
 
     }
 
@@ -216,18 +199,16 @@ public class ArquivoTxt {
 
     public static void main(String[] args) {
         List<Conteudo> lista = new ArrayList();
-        List<Usuario> autor = new ArrayList<>();
+        List<ProfessorRequest> professor = new ArrayList<>();
 
-        autor.add(new Usuario(1, "Lucas", "Pietro", LocalDate.now(),"lucas@gmail.com.br",
-                "Professor", LocalDate.now()));
+        professor.add(new ProfessorRequest("Gabriel", "Santos", "Gabriel.ss@gmail.com", "Professor"));
 
-        lista.add(new Conteudo(1, "Matemática", "aulasdematematica.com/aulas/conteudo",
-                "1. Aulas de matemática aplicada", LocalDateTime.now() , 10));
-        lista.add(new Conteudo(2, "Matematica", "aulao.com/aulas/execicio",
+        lista.add(new Conteudo(1, "Matemática", "aulas1/matematica/1",
+                "1. Aulas de matemática", LocalDateTime.now() , 10));
+        lista.add(new Conteudo(2, "Matematica", "aulao.com/aulas/2",
                 "2. resolva os exercícios", LocalDateTime.now() , 20));
-        lista.add(new Conteudo(3, "Matemática", "aulao.com/aulas/execicio",
-                "3. Aulas de matemática aplicada", LocalDateTime.now() , 20));
-
+        lista.add(new Conteudo(3, "Matemática", "aulao.com/aulas/3",
+                "3. Aulas de matemática ", LocalDateTime.now() , 20));
 
 
 
@@ -239,12 +220,14 @@ public class ArquivoTxt {
         System.out.println("======================================================================================================================================");
         System.out.println();
 
-        System.out.println("Lista de usuários:");
-        for (Usuario u : autor ){
-            System.out.println(u);
+        System.out.println("Lista de Autores:");
+
+        for (ProfessorRequest p : professor){
+            System.out.println(p);
         }
 
-        gravaArquivoTxt(autor, lista , "conteudo.txt");
-//        leArquivoTxt("conteudo.txt");
+
+       gravaArquivoTxt(professor, lista , "conteudo.txt");
+       leArquivoTxt("conteudo.txt");
     }
 }

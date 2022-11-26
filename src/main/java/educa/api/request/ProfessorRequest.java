@@ -35,4 +35,10 @@ public class ProfessorRequest {
         return new Usuario(nome, sobrenome, dataNasc, email, senha, areaAtuacao, inicioAtuacao);
     }
 
+    public ProfessorRequest(String nome, String sobrenome, String email, String areaAtuacao) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.email = email;
+        this.areaAtuacao = areaAtuacao;
+    }
 }
