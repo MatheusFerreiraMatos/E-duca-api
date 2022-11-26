@@ -1,0 +1,6 @@
+CONTEUDO26-11-2022 12:01:4400
+031   Claudio             Roberto                                           claudio@educa.com                       1980-09-01               Matemática               1995-05-01               
+031   Claudio             Roberto                                           claudio@educa.com                       1980-09-01               Matemática               1995-05-01               
+026   Descomplican        https://www.equacao.com.br/url                    O que é uma equação de 1º grau? Em resumo, equação2022-11-15T00:00         600
+0210  Trigonometri        https://www.trigonometria.com.br/url              Por isso, vamos falar sobre o que é a Trigonometri2022-11-17T00:00         1000
+010000000004

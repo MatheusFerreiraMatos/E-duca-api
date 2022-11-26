@@ -6,6 +6,8 @@ import educa.api.request.domain.Habilidade;
 import educa.api.request.domain.Usuario;
 import educa.api.repository.ConteudoRepository;
 import educa.api.repository.HabilidadeRepository;
+import educa.api.utils.ArquivoCsv;
+import educa.api.utils.ArquivoTxt;
 import educa.api.utils.ListObj;
 import educa.api.utils.PilhaObj;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -175,7 +181,49 @@ public class ConteudoController {
         return listObj.getTamanho() == 0
                 ? ResponseEntity.status(204).build()
                 : ResponseEntity.status(200).body(listObj.all());
+    }
 
+    @GetMapping(value = "/csv", produces = "text/csv")
+    public ResponseEntity<byte[]> gerarCsv() throws IOException {
+        List<Conteudo> conteudos = repository.findAll();
+        ListObj<Conteudo> listObj = new ListObj<>(100);
+
+        for (Conteudo conteudo : conteudos) {
+            listObj.add(conteudo);
+        }
+
+        ArquivoCsv arquivoCsv = new ArquivoCsv();
+
+        arquivoCsv.gravaArquivoCsv(listObj, "conteudos");
+
+        File file = new File("conteudos.csv");
+
+        byte[] bytes = Files.readAllBytes(file.toPath());
+
+        return ResponseEntity.status(200).header("content-disposition", "attachment; filename=\"conteudos.csv\"").body(bytes);
+    }
+
+    @GetMapping(value = "/txt", produces = "text/txt")
+    public ResponseEntity<byte[]> gerarTxt() throws IOException {
+        List<Conteudo> conteudos = repository.findAll();
+
+        List<Usuario> autorTxt = new ArrayList<>();
+        List<Conteudo> conteudosTxt = new ArrayList<>();
+
+        for (Conteudo conteudo : conteudos) {
+            autorTxt.add(conteudo.getUsuario());
+            conteudosTxt.add(conteudo);
+        }
+
+        ArquivoTxt arquivoTxt = new ArquivoTxt();
+
+        arquivoTxt.gravaArquivoTxt(autorTxt, conteudosTxt, "conteudos.txt");
+
+        File file = new File("conteudos.txt");
+
+        byte[] bytes = Files.readAllBytes(file.toPath());
+
+        return ResponseEntity.status(200).header("content-disposition", "attachment; filename=\"conteudos.txt\"").body(bytes);
     }
 
 }
