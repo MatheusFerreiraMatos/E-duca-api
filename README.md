@@ -1,1 +1,1 @@
-# curadoria-api
+# E-duca API
